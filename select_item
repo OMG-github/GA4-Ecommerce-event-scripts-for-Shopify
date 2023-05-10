@@ -1,0 +1,20 @@
+/* You can add this into the product images html in your collection  */
+
+onclick="
+dataLayer.push(function() {
+this.reset();
+})
+dataLayer.push({ 'ecommerce': null });
+dataLayer.push({
+  'event': 'select_item',
+  'ecommerce':{
+    'items': [{
+      item_id: '{{ product.id }}', 
+      item_name: '{{ product.title}},
+      item_brand: '{{ product.vendor',
+      item_category: '{{ product.type }}',
+      currency: '{{ shop.currency }}',
+      price: {{ product.price| money_without_currency }},  
+    }] 
+  }
+});"
