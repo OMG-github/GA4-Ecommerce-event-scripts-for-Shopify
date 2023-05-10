@@ -1,0 +1,23 @@
+{% if request.page_type == 'product' %}
+<!-- BEGIN OMG - PDP Views -->
+<script>
+dataLayer.push({ ecommerce: null });
+dataLayer.push({
+  'event'    : 'view_item',
+  'ecommerce' :{
+    'currency': "{{ shop.currency }}",
+    'value': "{{ product.price | money_without_currency | replace: ",","." }}",
+    'items':[{
+      "item_id": "{{ product.id }}",
+      "item_name": "{{ product.title }}",
+      "currency": "{{ shop.currency }}",
+      "item_brand": "{{ product.vendor }}",
+      "item_category": "{{ product.type }}",
+      "item_variant": "{{ product.selected_variant.title }}",
+      "price": "{{ product.price | money_without_currency | replace: ",",'.' }}"
+    }]
+  }
+})
+</script>
+<!-- END OMG - PDP Views -->
+{% endif %}
