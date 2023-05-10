@@ -1,0 +1,80 @@
+{% if template == 'checkout' %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      Shopify.Checkout.on('shipping_address_selected', function() {
+        dataLayer.push({ 'ecommerce': null });
+        dataLayer.push({
+          'event': 'add_shipping_info',
+          'ecommerce':{
+            'currency': "{{ cart.currency}}",
+            'value': '{{ product.price | money_without_currency | replace: ",","."}}',
+            'coupon': '{{ discount.title }}',
+            'items': [{
+              {% for line_item in line_items %}
+                {
+                  "item_id": '{{ line_item.product_id }}',
+                  "item_name": '{{ line_item.title }}',
+                  "currency": '{{ order.currency }}',
+                  "item_brand": '{{ line_item.vendor }}',
+                  "item_category": '{{ product.type }}',
+                  "item_variant": '{{ line_item.variant_id }}',
+                  "quantity": '{{ line_item.quantity }}',
+                  "price": '{{ line_item.final_price | money_without_currency | replace: ",",'.' }}'
+                }
+                {% unless forloop.last %},{% endunless %} {% endfor %}
+            }]
+          }
+        });
+      });
+      Shopify.Checkout.on('payment_method_selected', function() {
+        dataLayer.push({ 'ecommerce': null });
+        dataLayer.push({
+          'event': 'add_payment_info',
+          'ecommerce':{
+            'currency': "{{ cart.currency}}",
+            'value': '{{ product.price | money_without_currency | replace: ",","."}}',
+            'coupon': '{{ discount.title }}',
+            'items': [{
+              {% for line_item in line_items %}
+                {
+                  "item_id": '{{ line_item.product_id }}',
+                  "item_name": '{{ line_item.title }}',
+                  "currency": '{{ order.currency }}',
+                  "item_brand": '{{ line_item.vendor }}',
+                  "item_category": '{{ product.type }}',
+                  "item_variant": '{{ line_item.variant_id }}',
+                  "quantity": '{{ line_item.quantity }}',
+                  "price": '{{ line_item.final_price | money_without_currency | replace: ",",'.' }}'
+                }
+                {% unless forloop.last %},{% endunless %} {% endfor %}
+            }]
+          }
+        });
+      });
+      Shopify.Checkout.on('checkout_started', function() {
+        dataLayer.push({ 'ecommerce': null });
+        dataLayer.push({
+          'event': 'begin_checkout',
+	        'ecommerce': {
+    	      'currency': '{{ shop.currency }}',
+            'value': '{{ product.price | times: 0.01}}',
+		        'items': [{
+			        {% for line_item in line_items %}
+                {
+                  "item_id": '{{ line_item.product_id }}',
+                  "item_name": '{{ line_item.title }}',
+                  "currency": '{{ order.currency }}',
+                  "item_brand": '{{ line_item.vendor }}',
+                  "item_category": '{{ product.type }}',
+                  "item_variant": '{{ line_item.variant_id }}',
+                  "quantity": '{{ line_item.quantity }}',
+                  "price": '{{ line_item.final_price | money_without_currency | replace: ",",'.' }}'
+                }
+                {% unless forloop.last %},{% endunless %} {% endfor %}
+		        }]
+	        }
+        });
+      });
+    });
+  </script>
+{% endif %}
