@@ -1,3 +1,7 @@
+/* Use this if statement below if you drop this in checkout.liquid else use script as is in checkout settings */
+/* if(Shopify.Checkout.page == "thank_you"){
+ADD SCRIPT HERE} */
+
 {% if first_time_accessed %}
 <script>
     dataLayer.push({ ecommerce: null });
