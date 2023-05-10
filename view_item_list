@@ -1,0 +1,22 @@
+{% if request.page_type == 'collection' %}
+   <script>
+    dataLayer.push({ ecommerce: null });
+     dataLayer.push({
+       'event': 'view_item_list',
+       'ecommerce':{
+         'item_list_id': "{{ collection.id }}",
+         'item_list_name': "{{ collection.title }}",
+         'items':[{
+           "index": "{{ collection.sort_by }}",
+           "item_id": "{{ product.id }}",
+           "item_name": "{{ product.title }}",
+           "currency": "{{ shop.currency }}",
+           "item_brand": "{{ product.vendor }}",
+           "item_category": "{{ product.type }}",
+           "item_variant": "{{ product.selected_variant.title }}",
+           "price": "{{ product.price | money_without_currency | replace: ",",'.' }}"
+          }]
+        }
+     });
+   </script>
+{% endif %}
