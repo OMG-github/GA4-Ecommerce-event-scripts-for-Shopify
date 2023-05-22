@@ -2,7 +2,7 @@
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-XXXXXX');
+})(window,document,'script','dataLayer','GTM-XXXXXXX');
 
 window.dataLayer = window.dataLayer || [];
 
@@ -10,16 +10,16 @@ analytics.subscribe("product_viewed", (event) => {
     window.dataLayer.push({
         'event': 'product_viewed',
         'ecommerce': {
-            'currency': 
-            'value':
+            'currency': event.data.prouctVariant.price.currencyCode,
+            'value'   : event.data.prouctVariant.price.amount,
             'items':[{
-                "item_id": event.data.prouctVariant.product.id,
-                "item_name": event.data.prouctVariant.product.title,
-                "currency":
-                "price":
-                "item_brand":
-                "item_category":
-                "item_variant":
+                "item_id"       : event.data.prouctVariant.prouct.id,
+                "item_name"     : event.data.prouctVariant.prouct.title,
+                "currency"      : event.data.prouctVariant.price.currencyCode,
+                "price"         : event.data.prouctVariant.price.amount,
+                "item_brand"    : event.data.prouctVariant.product.vendor,
+                "item_category" : event.data.prouctVariant.product.type,
+                "item_variant"  : event.data.prouctVariant.title
             }]
         }
     });
@@ -29,16 +29,13 @@ analytics.subscribe("collection_viewed", (event) => {
     window.dataLayer.push({
         'event': 'collection_viewed',
         'ecommerce': {
-            'currency': 
-            'value':
-            'items':[{
-                "item_id": event.data.prouctVariant.product.id,
-                "item_name": event.data.prouctVariant.product.title,
-                "currency":
-                "price":
-                "item_brand":
-                "item_category":
-                "item_variant":
+            'item_list_id'  : event.data.collection.id,
+            'item_list_name': event.data.collection.title,
+            'items' :[{
+                "item_id"   : event.data.collection.prouctVariants.product.id,
+                "item_name" : event.data.collection.prouctVariants.product.title,
+                "currency"  : event.data.collection.prouctVariants.price.currencyCode,
+                "price"     : event.data.collection.prouctVariants.price.amount
             }]
         }
     });
@@ -48,16 +45,16 @@ analytics.subscribe("product_added_to_cart", (event) => {
     window.dataLayer.push({
         'event': 'product_added_to_cart',
         'ecommerce': {
-            'currency': 
-            'value':
-            'items':[{
-                "item_id": event.data.prouctVariant.product.id,
-                "item_name": event.data.prouctVariant.product.title,
-                "currency":
-                "price":
-                "item_brand":
-                "item_category":
-                "item_variant":
+            'currency' : event.data.cartLine.cost.totalAmount.currencyCode,
+            'value'    : event.data.cartLine.cost.totalAmount.amount,
+            'items' :[{
+                "item_id"       : event.data.cartLine.merchandise.product.id,
+                "item_name"     : event.data.cartLine.merchandise.product.title,
+                "currency"      : event.data.cartLine.merchandise.price.currencyCode,
+                "price"         : event.data.cartLine.merchandise.price.amount,
+                "item_brand"    : event.data.cartLine.merchandise.product.vendor,
+                "item_category" : event.data.cartLine.merchandise.product.type,
+                "item_variant"  : event.data.cartLine.merchandise.title
             }]
         }
     });
@@ -67,17 +64,23 @@ analytics.subscribe("checkout_completed", (event) => {
     window.dataLayer.push({
         'event': 'checkout_completed',
         'ecommerce': {
-            'currency': 
-            'value':
-            'items':[{
-                "item_id": event.data.prouctVariant.product.id,
-                "item_name": event.data.prouctVariant.product.title,
-                "currency":
-                "price":
-                "item_brand":
-                "item_category":
-                "item_variant":
-            }]
+            'transaction_id' : event.data.checkout.order.id,
+            'shipping'       : event.data.checkout.shippingLine.price.amount,
+            'email'          : event.data.checkout.email,
+            'phone'          : event.data.checkout.phone,
+            'tax'            : event.data.checkout.totalTax.amount,
+/*            'coupon'         : */
+            'currency'       : event.data.checkout.currencyCode,
+            'value'          : event.data.checkout.subtotalPrice.amount,
+/*            'items':[{
+                "item_id"       : 
+                "item_name"     : 
+                "currency"      :
+                "price"         :
+                "item_brand"    :
+                "item_category" :
+                "item_variant"  :
+            }] */
         }
     });
 });
@@ -86,17 +89,17 @@ analytics.subscribe("checkout_started", (event) => {
     window.dataLayer.push({
         'event': 'checkout_started',
         'ecommerce': {
-            'currency': 
-            'value':
-            'items':[{
-                "item_id": event.data.prouctVariant.product.id,
-                "item_name": event.data.prouctVariant.product.title,
-                "currency":
-                "price":
-                "item_brand":
-                "item_category":
-                "item_variant":
-            }]
+            'currency': event.data.checkout.currencyCode,
+            'value'   : event.data.checkout.subtotalPrice.amount,
+/*            'items':[{
+                "item_id"       : 
+                "item_name"     : 
+                "currency"      :
+                "price"         :
+                "item_brand"    :
+                "item_category" :
+                "item_variant"  :
+            }] */
         }
     });
 });
@@ -105,17 +108,18 @@ analytics.subscribe("payment_info_submitted", (event) => {
     window.dataLayer.push({
         'event': 'payment_info_submitted',
         'ecommerce': {
-            'currency': 
-            'value':
+            'currency'     : event.data.checkout.currencyCode,
+            'value'        : event.data.checkout.subtotalPrice.amount,
+/*            'payment_type' : event.data.checkout.
             'items':[{
-                "item_id": event.data.prouctVariant.product.id,
-                "item_name": event.data.prouctVariant.product.title,
-                "currency":
-                "price":
-                "item_brand":
-                "item_category":
-                "item_variant":
-            }]
+                "item_id"       : 
+                "item_name"     : 
+                "currency"      :
+                "price"         :
+                "item_brand"    :
+                "item_category" :
+                "item_variant"  :
+            }] */
         }
     });
 });
@@ -124,17 +128,18 @@ analytics.subscribe("checkout_shipping_info_submitted", (event) => {
     window.dataLayer.push({
         'event': 'checkout_shipping_info_submitted',
         'ecommerce': {
-            'currency': 
-            'value':
+            'currency'      : event.data.checkout.currencyCode,
+            'value'         : event.data.checkout.subtotalPrice.amount,
+/*            'shipping_tier' : 
             'items':[{
-                "item_id": event.data.prouctVariant.product.id,
-                "item_name": event.data.prouctVariant.product.title,
-                "currency":
-                "price":
-                "item_brand":
-                "item_category":
-                "item_variant":
-            }]
+                "item_id"       : 
+                "item_name"     : 
+                "currency"      :
+                "price"         :
+                "item_brand"    :
+                "item_category" :
+                "item_variant"  :
+            }] */
         }
     });
 });
@@ -143,17 +148,8 @@ analytics.subscribe("search_submitted", (event) => {
     window.dataLayer.push({
         'event': 'search_submitted',
         'ecommerce': {
-            'currency': 
-            'value':
-            'items':[{
-                "item_id": event.data.prouctVariant.product.id,
-                "item_name": event.data.prouctVariant.product.title,
-                "currency":
-                "price":
-                "item_brand":
-                "item_category":
-                "item_variant":
-            }]
+            'search_term': event.data.searchResult.query,
+
         }
     });
 });
