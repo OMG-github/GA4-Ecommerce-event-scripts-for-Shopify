@@ -1,0 +1,159 @@
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-XXXXXX');
+
+window.dataLayer = window.dataLayer || [];
+
+analytics.subscribe("product_viewed", (event) => {
+    window.dataLayer.push({
+        'event': 'product_viewed',
+        'ecommerce': {
+            'currency': 
+            'value':
+            'items':[{
+                "item_id": event.data.prouctVariant.product.id,
+                "item_name": event.data.prouctVariant.product.title,
+                "currency":
+                "price":
+                "item_brand":
+                "item_category":
+                "item_variant":
+            }]
+        }
+    });
+});
+
+analytics.subscribe("collection_viewed", (event) => {
+    window.dataLayer.push({
+        'event': 'collection_viewed',
+        'ecommerce': {
+            'currency': 
+            'value':
+            'items':[{
+                "item_id": event.data.prouctVariant.product.id,
+                "item_name": event.data.prouctVariant.product.title,
+                "currency":
+                "price":
+                "item_brand":
+                "item_category":
+                "item_variant":
+            }]
+        }
+    });
+});
+
+analytics.subscribe("product_added_to_cart", (event) => {
+    window.dataLayer.push({
+        'event': 'product_added_to_cart',
+        'ecommerce': {
+            'currency': 
+            'value':
+            'items':[{
+                "item_id": event.data.prouctVariant.product.id,
+                "item_name": event.data.prouctVariant.product.title,
+                "currency":
+                "price":
+                "item_brand":
+                "item_category":
+                "item_variant":
+            }]
+        }
+    });
+});
+
+analytics.subscribe("checkout_completed", (event) => {
+    window.dataLayer.push({
+        'event': 'checkout_completed',
+        'ecommerce': {
+            'currency': 
+            'value':
+            'items':[{
+                "item_id": event.data.prouctVariant.product.id,
+                "item_name": event.data.prouctVariant.product.title,
+                "currency":
+                "price":
+                "item_brand":
+                "item_category":
+                "item_variant":
+            }]
+        }
+    });
+});
+
+analytics.subscribe("checkout_started", (event) => {
+    window.dataLayer.push({
+        'event': 'checkout_started',
+        'ecommerce': {
+            'currency': 
+            'value':
+            'items':[{
+                "item_id": event.data.prouctVariant.product.id,
+                "item_name": event.data.prouctVariant.product.title,
+                "currency":
+                "price":
+                "item_brand":
+                "item_category":
+                "item_variant":
+            }]
+        }
+    });
+});
+
+analytics.subscribe("payment_info_submitted", (event) => {
+    window.dataLayer.push({
+        'event': 'payment_info_submitted',
+        'ecommerce': {
+            'currency': 
+            'value':
+            'items':[{
+                "item_id": event.data.prouctVariant.product.id,
+                "item_name": event.data.prouctVariant.product.title,
+                "currency":
+                "price":
+                "item_brand":
+                "item_category":
+                "item_variant":
+            }]
+        }
+    });
+});
+
+analytics.subscribe("checkout_shipping_info_submitted", (event) => {
+    window.dataLayer.push({
+        'event': 'checkout_shipping_info_submitted',
+        'ecommerce': {
+            'currency': 
+            'value':
+            'items':[{
+                "item_id": event.data.prouctVariant.product.id,
+                "item_name": event.data.prouctVariant.product.title,
+                "currency":
+                "price":
+                "item_brand":
+                "item_category":
+                "item_variant":
+            }]
+        }
+    });
+});
+
+analytics.subscribe("search_submitted", (event) => {
+    window.dataLayer.push({
+        'event': 'search_submitted',
+        'ecommerce': {
+            'currency': 
+            'value':
+            'items':[{
+                "item_id": event.data.prouctVariant.product.id,
+                "item_name": event.data.prouctVariant.product.title,
+                "currency":
+                "price":
+                "item_brand":
+                "item_category":
+                "item_variant":
+            }]
+        }
+    });
+});
