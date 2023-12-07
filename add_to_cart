@@ -1,19 +1,27 @@
-/* Add this to you 'addToCart' button */
-
-onclick="dataLayer.push({ 'ecommerce': null });
-dataLayer.push({
-	'event': 'add_to_cart',
-	'ecommerce': {
-    	'currency': '{{ shop.currency }}',
-    	'value': '{{ product.price | times: 0.01}}',
-		'items': [{
-			'item_id': '{{ product.id }}',
-			'item_name': '{{ product.title }}',
-			'item_brand': '{{ product.vendor }}',
-		 	'item_category': '{{ product.type }}',
-		 	'item_variant': '{{ product.selected_variant.sku }}',
-		 	'currency': '{{ shop.currency }}',
-		 	'price': '{{ product.price | times: 0.01}}'
-		}]
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+	const addToCartButton = document.getElementById('XXXXXXXXX'); //Replace XXXXXXXXX with button id.
+	
+	if (addToCartButton) {
+	  addToCartButton.addEventListener('click', function(event) {
+		dataLayer.push({ ecommerce: null });
+		dataLayer.push({
+		  'event': 'add_to_cart',
+		  'ecommerce': {
+			'currency': '{{ shop.currency }}',
+			'value': '{{ product.price | times: 0.01}}',
+			'items': [{
+				'item_id': '{{ product.id }}',
+				'item_name': '{{ product.title }}',
+				'item_brand': '{{ product.vendor }}',
+				 'item_category': '{{ product.type }}',
+				 'item_variant': '{{ product.selected_variant.sku }}',
+				 'currency': '{{ shop.currency }}',
+				 'price': '{{ product.price | times: 0.01}}'
+			}]
+		  }
+		});
+	  });
 	}
-});"
+	});
+	</script>
