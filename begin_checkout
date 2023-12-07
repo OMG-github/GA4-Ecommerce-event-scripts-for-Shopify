@@ -1,0 +1,28 @@
+<!-- Button to trigger the begin checkout event -->
+<button onclick="handleBeginCheckout()">Begin Checkout</button>
+
+<script>
+// JavaScript function to handle the initiation of the checkout process
+function handleBeginCheckout() {
+    // Clear any previous ecommerce data from the data layer
+    dataLayer.push({ 'ecommerce': null });
+
+    // Push the begin checkout event to the data layer with product details
+    dataLayer.push({
+        'event': 'begin_checkout',
+        'ecommerce': {
+            'currency': '{{ shop.currency }}',
+            'value': '{{ product.price | times: 0.01 }}',
+            'items': [{
+                'item_id': '{{ product.id }}',
+                'item_name': '{{ product.title }}',
+                'item_brand': '{{ product.vendor }}',
+                'item_category': '{{ product.type }}',
+                'item_variant': '{{ product.selected_variant.sku }}',
+                'currency': '{{ cart.currency }}',
+                'price': '{{ product.price | times: 0.01 }}'
+            }]
+        }
+    });
+}
+</script>
