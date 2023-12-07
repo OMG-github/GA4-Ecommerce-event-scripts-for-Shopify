@@ -1,0 +1,26 @@
+{% if request.page_type == 'cart' %}
+  <!-- Set a JavaScript variable indicating it's a cart page -->
+  <script>
+    var isCartPage = true;
+  </script>
+{% else %}
+  <!-- Set a JavaScript variable indicating it's not a cart page -->
+  <script>
+    var isCartPage = false;
+  </script>
+{% endif %}
+
+<!-- Include your analytics tracking script -->
+<script>
+  // Check the JavaScript variable to determine if it's a cart page
+  if (isCartPage) {
+    // Your custom JavaScript code for cart pages
+    dataLayer.push({
+      'event' : 'view_cart',
+      'ecommerce' :{
+        'currency' : '{{ cart.currency.iso_code }}',
+        'value': "{{ cart.total_price | money_without_currency | replace: ",","." }}",
+      }
+    });
+  }
+</script>
