@@ -17,7 +17,7 @@ dataLayer.push({
       "price": "{{ product.price | money_without_currency | replace: ",",'.' }}"
     }]
   }
-})
+});
 </script>
-<!-- END OMG - PDP Views -->
+<!-- end OMG - PDP Views -->
 {% endif %}
