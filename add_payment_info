@@ -1,0 +1,22 @@
+{% if Shopify.Checkout.step == "payment_method" %}
+<script>
+  dataLayer.push({ 'ecommerce': null });
+  dataLayer.push({
+    'event': 'add_payment_info',
+    'ecommerce':{
+      'currency': "{{ cart.currency}}",
+      'value': '{{ product.price | money_without_currency | replace: ",","."}}',
+      'coupon': '{{ discount.title }}',
+      'items': [{
+        'item_id': '{{ product.id }}',
+		    'item_name': '{{ product.title }}',
+		    'item_brand': '{{ product.vendor }}',
+		    'item_category': '{{ product.type }}',
+		    'item_variant': '{{ product.selected_variant.sku }}',
+		    'currency': '{{ cart.currency }}',
+		    'price': '{{ product.price | money_without_currency | replace: ",","."}}'
+      }]
+    }
+  });
+</script>
+{% endif %}
