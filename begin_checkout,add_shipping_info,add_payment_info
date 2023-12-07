@@ -1,80 +1,89 @@
-{% if template == 'checkout' %}
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      Shopify.Checkout.on('shipping_address_selected', function() {
-        dataLayer.push({ 'ecommerce': null });
-        dataLayer.push({
-          'event': 'add_shipping_info',
-          'ecommerce':{
-            'currency': "{{ cart.currency}}",
-            'value': '{{ product.price | money_without_currency | replace: ",","."}}',
-            'coupon': '{{ discount.title }}',
-            'items': [{
-              {% for line_item in line_items %}
-                {
-                  "item_id": '{{ line_item.product_id }}',
-                  "item_name": '{{ line_item.title }}',
-                  "currency": '{{ order.currency }}',
-                  "item_brand": '{{ line_item.vendor }}',
-                  "item_category": '{{ product.type }}',
-                  "item_variant": '{{ line_item.variant_id }}',
-                  "quantity": '{{ line_item.quantity }}',
-                  "price": '{{ line_item.final_price | money_without_currency | replace: ",",'.' }}'
-                }
-                {% unless forloop.last %},{% endunless %} {% endfor %}
-            }]
-          }
-        });
-      });
-      Shopify.Checkout.on('payment_method_selected', function() {
-        dataLayer.push({ 'ecommerce': null });
-        dataLayer.push({
-          'event': 'add_payment_info',
-          'ecommerce':{
-            'currency': "{{ cart.currency}}",
-            'value': '{{ product.price | money_without_currency | replace: ",","."}}',
-            'coupon': '{{ discount.title }}',
-            'items': [{
-              {% for line_item in line_items %}
-                {
-                  "item_id": '{{ line_item.product_id }}',
-                  "item_name": '{{ line_item.title }}',
-                  "currency": '{{ order.currency }}',
-                  "item_brand": '{{ line_item.vendor }}',
-                  "item_category": '{{ product.type }}',
-                  "item_variant": '{{ line_item.variant_id }}',
-                  "quantity": '{{ line_item.quantity }}',
-                  "price": '{{ line_item.final_price | money_without_currency | replace: ",",'.' }}'
-                }
-                {% unless forloop.last %},{% endunless %} {% endfor %}
-            }]
-          }
-        });
-      });
-      Shopify.Checkout.on('checkout_started', function() {
-        dataLayer.push({ 'ecommerce': null });
-        dataLayer.push({
-          'event': 'begin_checkout',
-	        'ecommerce': {
-    	      'currency': '{{ shop.currency }}',
-            'value': '{{ product.price | times: 0.01}}',
-		        'items': [{
-			        {% for line_item in line_items %}
-                {
-                  "item_id": '{{ line_item.product_id }}',
-                  "item_name": '{{ line_item.title }}',
-                  "currency": '{{ order.currency }}',
-                  "item_brand": '{{ line_item.vendor }}',
-                  "item_category": '{{ product.type }}',
-                  "item_variant": '{{ line_item.variant_id }}',
-                  "quantity": '{{ line_item.quantity }}',
-                  "price": '{{ line_item.final_price | money_without_currency | replace: ",",'.' }}'
-                }
-                {% unless forloop.last %},{% endunless %} {% endfor %}
-		        }]
-	        }
-        });
-      });
+    // Wait for the document to be ready
+    document.addEventListener("DOMContentLoaded", function () {
+
+      function handleCheckoutStep() {
+        // Define a function called 'handleCheckoutStep' to check and respond to the current checkout step.
+
+        var dataLayer = window.dataLayer || [];
+        // Initialize a 'dataLayer' array if it doesn't already exist or use an existing one.
+
+        if (Shopify.Checkout.step === "contact_information") {
+          // Check if the current step is "contact_information".
+
+            dataLayer.push({ 'ecommerce': null });
+            dataLayer.push({
+              'event': 'begin_checkout',
+              'ecommerce':{
+                'currency': "{{ shop.currency}}",
+                'value': '{{ checkout.total_price | money_without_currency | replace: ",","."}}',
+                'items': [
+                  {% for line_item in checkout.line_items %}
+                    {
+                      "item_id": '{{ line_item.product_id }}',
+                      "item_name": '{{ line_item.title }}',
+                      "item_brand": '{{ line_item.vendor }}',
+                      "item_variant": '{{ line_item.variant_id }}',
+                      "quantity": '{{ line_item.quantity }}',
+                      "price": '{{ line_item.final_price | money_without_currency | replace: ",",'.' }}'
+                    }
+                    {% unless forloop.last %},{% endunless %} {% endfor %}
+                ]
+              }
+            });
+          
+        } else if (Shopify.Checkout.step === "shipping_method") {
+          // Check if the current step is "shipping_method".
+
+            dataLayer.push({ 'ecommerce': null });
+            dataLayer.push({
+              'event': 'add_shipping_info',
+              'ecommerce':{
+                'currency': "{{ shop.currency}}",
+                'value': '{{ checkout.total_price | money_without_currency | replace: ",","."}}',
+                'items': [
+                  {% for line_item in checkout.line_items %}
+                    {
+                      "item_id": '{{ line_item.product_id }}',
+                      "item_name": '{{ line_item.title }}',
+                      "item_brand": '{{ line_item.vendor }}',
+                      "item_variant": '{{ line_item.variant_id }}',
+                      "quantity": '{{ line_item.quantity }}',
+                      "price": '{{ line_item.final_price | money_without_currency | replace: ",",'.' }}'
+                    }
+                    {% unless forloop.last %},{% endunless %} {% endfor %}
+                ]
+              }
+            });
+          
+        } else if (Shopify.Checkout.step === "payment_method") {
+          // Check if the current step is "payment_method".
+
+            dataLayer.push({ 'ecommerce': null });
+            dataLayer.push({
+              'event': 'add_payment_info',
+              'ecommerce':{
+                'currency': "{{ shop.currency}}",
+                'value': '{{ checkout.total_price | money_without_currency | replace: ",","."}}',
+                'items': [
+                  {% for line_item in checkout.line_items %}
+                    {
+                      "item_id": '{{ line_item.product_id }}',
+                      "item_name": '{{ line_item.title }}',
+                      "item_brand": '{{ line_item.vendor }}',
+                      "item_variant": '{{ line_item.variant_id }}',
+                      "quantity": '{{ line_item.quantity }}',
+                      "price": '{{ line_item.final_price | money_without_currency | replace: ",",'.' }}'
+                    }
+                    {% unless forloop.last %},{% endunless %} {% endfor %}
+                ]
+              }
+            });
+
+        }
+        // Add more 'else if' conditions as needed for other steps.
+      }
+
+      handleCheckoutStep();
     });
   </script>
-{% endif %}
