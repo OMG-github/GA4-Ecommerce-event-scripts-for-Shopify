@@ -1,0 +1,28 @@
+<!-- Button to trigger the remove from cart event -->
+<button onclick="handleRemoveFromCart()">Remove from Cart</button>
+
+<script>
+// JavaScript function to handle the removal of a product from the cart
+function handleRemoveFromCart() {
+    // Clear any previous ecommerce data from the data layer
+    dataLayer.push({ 'ecommerce': null });
+
+    // Push the remove from cart event to the data layer with product details
+    dataLayer.push({
+        'event': 'remove_from_cart',
+        'ecommerce': {
+            'currency': '{{ cart.currency }}',
+            'value': '{{ product.price | times: 0.01 }}',
+            'items': [{
+                'item_id': '{{ product.id }}',
+                'item_name': '{{ product.title }}',
+                'item_brand': '{{ product.vendor }}',
+                'item_category': '{{ product.type }}',
+                'item_variant': '{{ product.selected_variant.sku }}',
+                'currency': '{{ cart.currency }}',
+                'price': '{{ product.price | times: 0.01 }}'
+            }]
+        }
+    });
+}
+</script>
